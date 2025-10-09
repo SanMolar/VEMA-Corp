@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VEMA Corp — Home</title>
+  <link rel="icon" href="/imagenes/android-chrome-512x512.png" type="image/png"/>
+  <!-- Tailwind (CDN para pruebas) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-slate-100">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 bg-slate-900/70 backdrop-blur border-b border-white/10">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <a href="./home.html" class="flex items-center gap-3">
+        <img src="/imagenes/VEMA-transparente.png" alt="VEMA Corp" class="h-8 w-auto object-contain drop-shadow-[0_1px_8px_rgba(255,255,255,0.2)]"/>
+        <span class="font-semibold tracking-wide">VEMA Corp</span>
+      </a>
+      <div class="hidden sm:flex items-center gap-6 text-sm">
+        <a href="#beneficios" class="hover:text-indigo-300">Beneficios</a>
+        <a href="#como-funciona" class="hover:text-indigo-300">Cómo funciona</a>
+        <a href="#especificaciones" class="hover:text-indigo-300">Especificaciones</a>
+        <a href="#faq" class="hover:text-indigo-300">FAQ</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero / Producto -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div>
+        <!-- TODO: Cambia el nombre y el eslogan del producto -->
+        <p class="text-xs uppercase tracking-widest text-indigo-300/90">Nuevo producto</p>
+        <h1 class="mt-2 text-3xl sm:text-5xl font-extrabold leading-tight">
+          <span class="text-indigo-300">[Nombre del dispositivo]</span><br/>
+          Tu agua, <span class="text-indigo-400">medida al instante</span>.
+        </h1>
+        <p class="mt-4 text-slate-300">
+          [Slogan corto editable] Un medidor inteligente que analiza la calidad del agua en segundos:
+          TDS, pH y más, con precisión y facilidad.
+        </p>
+
+        <!-- Bullets principales -->
+        <ul class="mt-6 space-y-2 text-sm text-slate-300">
+          <li>• Lecturas rápidas y confiables (pH, TDS, temperatura)</li>
+          <li>• Diseño portátil y resistente a salpicaduras</li>
+          <li>• Pantalla clara y calibración sencilla</li>
+          <li>• Ideal para casa, oficina o acuarios</li>
+        </ul>
+
+        <!-- CTA -->
+        <div class="mt-7 flex flex-wrap items-center gap-3">
+          <!-- “Comprar” enviará al registro como gancho -->
+          <a href="./registro.html" class="rounded-xl bg-indigo-500 hover:bg-indigo-600 px-5 py-2.5 font-semibold transition">
+            Comprar ahora
+          </a>
+          <a href="#especificaciones" class="rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 px-5 py-2.5 transition">
+            Ver detalles
+          </a>
+        </div>
+
+        <!-- Sellos / Confianza -->
+        <div class="mt-6 flex items-center gap-6 text-xs text-slate-400">
+          <span>🔒 Garantía 12 meses</span>
+          <span>🚚 Envío a todo el país</span>
+          <span>⭐️ 4.9/5 usuarios</span>
+        </div>
+      </div>
+
+      <!-- Mockup / Placeholder visual del producto -->
+      <div class="relative">
+        <div class="aspect-[4/5] rounded-3xl border border-white/20 bg-white/5 backdrop-blur overflow-hidden shadow-2xl flex items-center justify-center">
+          <!-- TODO: Reemplaza la imagen por tu mockup real -->
+          <div class="w-[70%] h-[80%] rounded-2xl border border-white/10 bg-gradient-to-br from-slate-100/10 to-white/10 flex items-center justify-center">
+            <span class="text-sm text-slate-300">[Mockup del medidor de agua]</span>
+          </div>
+        </div>
+        <div class="absolute -bottom-4 -left-4 hidden sm:block">
+          <div class="px-4 py-2 rounded-xl bg-indigo-500/20 border border-indigo-400/30 text-indigo-200 text-xs shadow">
+            Lectura en <span class="font-semibold">segundos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section id="beneficios" class="max-w-6xl mx-auto px-4 sm:px-6 pb-14">
+    <h2 class="text-xl font-semibold mb-6">¿Por qué elegirlo?</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="rounded-2xl border border-white/20 bg-white/5 p-5 backdrop-blur">
+        <div class="text-2xl">⚡</div>
+        <h3 class="mt-3 font-semibold">Rápido y preciso</h3>
+        <p class="mt-2 text-sm text-slate-300">Obtén métricas confiables en segundos con sensores calibrables.</p>
+      </article>
+      <article class="rounded-2xl border border-white/20 bg-white/5 p-5 backdrop-blur">
+        <div class="text-2xl">💧</div>
+        <h3 class="mt-3 font-semibold">Control de pureza</h3>
+        <p class="mt-2 text-sm text-slate-300">Monitorea TDS y pH para asegurar agua de mejor calidad.</p>
+      </article>
+      <article class="rounded-2xl border border-white/20 bg-white/20 p-5 backdrop-blur">
+        <div class="text-2xl">🔋</div>
+        <h3 class="mt-3 font-semibold">Autonomía eficiente</h3>
+        <p class="mt-2 text-sm text-slate-300">Batería de larga duración y apagado automático.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Cómo funciona -->
+  <section id="como-funciona" class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <div class="rounded-2xl border border-white/20 bg-white/5 p-6 sm:p-8 backdrop-blur">
+      <h2 class="text-xl font-semibold">Cómo funciona</h2>
+      <ol class="mt-4 grid sm:grid-cols-3 gap-6 text-sm">
+        <li class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-slate-300">1. Enciende</div>
+          <p class="mt-1 text-slate-400">Activa el dispositivo con un toque.</p>
+        </li>
+        <li class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-slate-300">2. Sumerge</div>
+          <p class="mt-1 text-slate-400">Introduce el sensor en el agua por unos segundos.</p>
+        </li>
+        <li class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-slate-300">3. Lee</div>
+          <p class="mt-1 text-slate-400">Revisa pH, TDS y temperatura en la pantalla.</p>
+        </li>
+      </ol>
+      <div class="mt-6">
+        <a href="./registro.html" class="inline-block rounded-xl bg-indigo-500 hover:bg-indigo-600 px-5 py-2.5 font-semibold transition">
+          Crear cuenta para comprar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Especificaciones / Precio -->
+  <section id="especificaciones" class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <div class="grid lg:grid-cols-3 gap-6">
+      <div class="lg:col-span-2 rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur">
+        <h2 class="text-xl font-semibold">Especificaciones técnicas</h2>
+        <div class="mt-4 grid sm:grid-cols-2 gap-x-6 gap-y-3 text-sm text-slate-300">
+          <!-- TODO: Edita estas specs -->
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Rango pH</span><span>0.00 – 14.00 ±0.1</span></div>
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Rango TDS</span><span>0 – 9999 ppm</span></div>
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Temperatura</span><span>0 – 80 °C</span></div>
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Resistencia</span><span>IPX4 (salpicaduras)</span></div>
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Alimentación</span><span>Pilas / USB (editable)</span></div>
+          <div class="flex justify-between border-b border-white/10 py-2"><span>Pantalla</span><span>LCD retroiluminada</span></div>
+        </div>
+      </div>
+
+      <!-- Card de precio / CTA -->
+      <aside class="rounded-2xl border border-white/20 bg-white/5 p-6 backdrop-blur h-max">
+        <!-- TODO: Cambia precio/promos -->
+        <p class="text-sm text-slate-300">Precio lanzamiento</p>
+        <div class="mt-1 text-4xl font-extrabold text-indigo-300">$[999]<span class="text-base text-slate-300"> MXN</span></div>
+        <p class="mt-2 text-xs text-slate-400">Incluye garantía de 12 meses.</p>
+        <a href="./registro.html" class="mt-5 block text-center rounded-xl bg-indigo-500 hover:bg-indigo-600 px-5 py-3 font-semibold transition">
+          Comprar (crear cuenta)
+        </a>
+        <a href="./index.html" class="mt-3 block text-center rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 px-5 py-3 transition">
+          Ya tengo cuenta
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Testimonios simples -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <h2 class="text-xl font-semibold mb-6">Lo que dicen nuestros usuarios</h2>
+    <div class="grid sm:grid-cols-3 gap-6 text-sm">
+      <figure class="rounded-2xl border border-white/20 bg-white/5 p-5 backdrop-blur">
+        <blockquote class="text-slate-300">“Muy práctico para revisar el agua de mi filtro. Lectura rápida.”</blockquote>
+        <figcaption class="mt-3 text-slate-400">— Ana R.</figcaption>
+      </figure>
+      <figure class="rounded-2xl border border-white/20 bg-white/5 p-5 backdrop-blur">
+        <blockquote class="text-slate-300">“Calibración sencilla y resultados consistentes.”</blockquote>
+        <figcaption class="mt-3 text-slate-400">— Luis G.</figcaption>
+      </figure>
+      <figure class="rounded-2xl border border-white/20 bg-white/5 p-5 backdrop-blur">
+        <blockquote class="text-slate-300">“Ideal para mi acuario, me ahorra tiempo.”</blockquote>
+        <figcaption class="mt-3 text-slate-400">— Sofía M.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <div class="rounded-2xl border border-white/20 bg-white/5 p-6 sm:p-8 backdrop-blur">
+      <h2 class="text-xl font-semibold">Preguntas frecuentes</h2>
+      <div class="mt-4 grid sm:grid-cols-2 gap-6 text-sm">
+        <div>
+          <h3 class="font-semibold">¿Necesita calibración?</h3>
+          <p class="mt-1 text-slate-300">Sí, recomendamos calibración inicial y periódica.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">¿Sirve para agua potable?</h3>
+          <p class="mt-1 text-slate-300">Sí, es útil para evaluar parámetros básicos de calidad.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">¿Es resistente al agua?</h3>
+          <p class="mt-1 text-slate-300">Resiste salpicaduras (IPX4). No sumergir completamente.</p>
+        </div>
+        <div>
+          <h3 class="font-semibold">¿Incluye garantía?</h3>
+          <p class="mt-1 text-slate-300">Garantía limitada de 12 meses por defecto de fabricación.</p>
+        </div>
+      </div>
+      <div class="mt-6">
+        <a href="./registro.html" class="inline-block rounded-xl bg-indigo-500 hover:bg-indigo-600 px-5 py-2.5 font-semibold transition">
+          Crear cuenta para comprar
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-sm text-slate-400 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <p>© 2025 VEMA Corp — Todos los derechos reservados</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-indigo-300">Privacidad</a>
+        <a href="#" class="hover:text-indigo-300">Términos</a>
+        <a href="#" class="hover:text-indigo-300">Soporte</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VEMA Corp — Crear cuenta</title>
+  <link rel="icon" href="/imagenes/android-chrome-512x512.png" type="image/png" />
+  <!-- Tailwind (CDN para pruebas) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
+  <main class="w-full max-w-md">
+    <section class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 text-slate-100">
+      <!-- Encabezado -->
+      <div class="mb-6">
+        <h1 class="text-xl font-semibold leading-tight">
+          <span class="block">Crear cuenta en</span>
+        </h1>
+        <div class="mt-2 flex items-center">
+          <img
+            src="/imagenes/VEMA-transparente.png"
+            alt="VEMA Corp"
+            class="h-8 sm:h-10 w-auto object-contain align-middle drop-shadow-[0_1px_8px_rgba(255,255,255,0.2)]"
+            loading="eager"
+            decoding="async"
+          />
+        </div>
+        <p class="mt-2 text-sm text-slate-300">Regístrate para comenzar</p>
+      </div>
+
+      <!-- Formulario de registro -->
+      <form id="formRegister" class="space-y-5" method="POST" action="#">
+        <!-- Nombre -->
+        <div>
+          <label for="name" class="block text-sm font-medium mb-1">Nombre</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="Tu nombre"
+            required
+            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
+                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+          />
+        </div>
+
+        <!-- Correo -->
+        <div>
+          <label for="email" class="block text-sm font-medium mb-1">Correo</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="correo@ejemplo.com"
+            required
+            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
+                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+          />
+        </div>
+
+        <!-- Contraseña -->
+        <div>
+          <label for="password" class="block text-sm font-medium mb-1">Contraseña</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="********"
+            required
+            minlength="8"
+            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
+                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+          />
+          <p class="mt-1 text-xs text-slate-400">Mínimo 8 caracteres.</p>
+        </div>
+
+        <!-- Confirmación de contraseña -->
+        <div>
+          <label for="confirm_password" class="block text-sm font-medium mb-1">Confirmar contraseña</label>
+          <input
+            id="confirm_password"
+            name="confirm_password"
+            type="password"
+            placeholder="********"
+            required
+            minlength="8"
+            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
+                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
+          />
+        </div>
+
+        <!-- Términos -->
+        <div class="text-sm">
+          <label class="inline-flex items-start gap-3 select-none">
+            <input type="checkbox" required class="mt-1 h-4 w-4 rounded border-white/30 bg-white/5 text-indigo-400 focus:ring-indigo-400"/>
+            <span class="text-slate-300">
+              Acepto los <a href="#" class="text-indigo-300 hover:text-indigo-200 hover:underline">Términos y Condiciones</a>
+              y el <a href="#" class="text-indigo-300 hover:text-indigo-200 hover:underline">Aviso de Privacidad</a>.
+            </span>
+          </label>
+        </div>
+
+        <!-- Botón principal -->
+        <button
+          type="submit"
+          class="w-full rounded-xl bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 px-4 py-2.5 font-semibold
+                 shadow-lg shadow-indigo-500/20 transition"
+        >
+          Crear cuenta
+        </button>
+
+        <!-- Divider -->
+        <div class="flex items-center gap-3">
+          <div class="h-px flex-1 bg-white/20"></div>
+          <span class="text-xs text-slate-400">¿Ya tienes cuenta?</span>
+          <div class="h-px flex-1 bg-white/20"></div>
+        </div>
+
+        <!-- Botón secundario (volver a login) -->
+        <a
+          href="./index.html"
+          class="block w-full text-center rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-2.5
+                 text-slate-100 transition"
+        >
+          Iniciar sesión
+        </a>
+      </form>
+    </section>
+
+    <!-- Footer mini -->
+    <p class="mt-4 text-center text-xs text-slate-400">
+      © <span id="year">2025</span> VEMA Corp — Todos los derechos reservados
+    </p>
+  </main>
+  <script type="module" src="../js/registro.js"></script>
+</body>
+</html>
