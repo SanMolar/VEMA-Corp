@@ -1,17 +1,17 @@
 // api.js
-export const API_BASE = "http://localhost:3000";
+export const API_BASE =
+  (import.meta?.env && import.meta.env.VITE_API_URL) || "http://localhost:3000";
 
 export async function postJSON(path, body) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  let data = null;
   try {
-    data = await res.json();
-  } catch (_) {
-    // cuerpo vacío o error de parseo
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => null);
+    return { ok: res.ok, status: res.status, data };
+  } catch (err) {
+    return { ok: false, status: 0, data: null }; // fallo de red / CORS / mixed content
   }
-  return { ok: res.ok, status: res.status, data };
 }

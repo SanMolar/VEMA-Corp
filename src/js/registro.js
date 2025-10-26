@@ -1,11 +1,17 @@
-// registro.js
 import { postJSON } from "./api.js";
 import { saveToken } from "./auth.js";
 
 const form = document.getElementById("formRegister");
-const msg = document.getElementById("msg"); // si tienes un <p id="msg">
+const msg  = document.getElementById("msg"); // opcional <p id="msg">
 
-// Pre-llenar email si venimos de login
+// Para recordar el sector en el front
+function setSectorLocal(sector) {
+  const allowed = new Set(["general", "escuela", "gobierno", "empresa"]);
+  const s = String(sector || "general").toLowerCase();
+  localStorage.setItem("vema_sector", allowed.has(s) ? s : "general");
+}
+
+// Pre-llenar email si viene en query
 const params = new URLSearchParams(window.location.search);
 const preEmail = params.get("email");
 
@@ -14,40 +20,48 @@ if (form) {
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    msg && (msg.textContent = "");
+    if (msg) msg.textContent = "";
 
-    const email = form.email.value.trim();
-    const password = form.password.value;
-
-    // (Opcional) confirmar contraseña si tienes confirm_password
+    const email = form.email?.value?.trim();
+    const password = form.password?.value;
     const confirm = form.confirm_password?.value;
+
+    // Lee el sector desde los radios (name="tipo")
+    const sel = document.querySelector('input[name="tipo"]:checked');
+    const rawSector = sel ? sel.value : "general"; // "escuela" | "gobierno" | "empresa"
+    const sector = String(rawSector || "general").toLowerCase();
+
     if (typeof confirm !== "undefined" && password !== confirm) {
-      msg && (msg.textContent = "Las contraseñas no coinciden.");
+      if (msg) msg.textContent = "Las contraseñas no coinciden.";
       return;
     }
 
     if (!email || !password) {
-      msg && (msg.textContent = "Completa correo y contraseña.");
+      if (msg) msg.textContent = "Completa correo y contraseña.";
       return;
     }
 
-    const { ok, status, data } = await postJSON("/api/register", { email, password });
+    // Enviamos también el sector al backend
+    const { ok, status, data } = await postJSON("/api/register", { email, password, sector });
 
     if (!ok) {
       if (status === 409 && data?.code === "email_ya_registrado") {
-        msg && (msg.textContent = "Este correo ya está registrado. Ve a iniciar sesión.");
+        if (msg) msg.textContent = "Este correo ya está registrado. Ve a iniciar sesión.";
         return;
       }
-      msg && (msg.textContent = "No se pudo crear la cuenta.");
+      if (msg) msg.textContent = "No se pudo crear la cuenta.";
       return;
     }
 
-    // Registro OK: auto-login (ya te devuelve token) o redirige a login
+    // Registro OK: guardar token y sector y redirigir
     if (data?.token) {
       saveToken(data.token);
-      window.location.href = "./home.html"; // o dashboard privado si luego lo agregas
+      setSectorLocal(data?.user?.sector || sector || "general");
+      window.location.href = "./home.html";
     } else {
-      window.location.href = "./index.html"; // fallback
+      // fallback en caso de que no devuelva token
+      setSectorLocal(sector);
+      window.location.href = "./login.html";
     }
   });
 }

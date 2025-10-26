@@ -1,43 +1,55 @@
-// login.js
 import { postJSON } from "./api.js";
 import { saveToken } from "./auth.js";
 
-// Ajusta si tu login no es index.html
 const form = document.getElementById("formLogin");
-const msg = document.getElementById("msg"); // opcional si lo tienes
+const msg  = document.getElementById("msg"); // opcional <p id="msg">
+
+function setSectorLocal(sector) {
+  const allowed = new Set(["general", "escuela", "gobierno", "empresa"]);
+  const s = String(sector || "general").toLowerCase();
+  localStorage.setItem("vema_sector", allowed.has(s) ? s : "general");
+}
 
 if (form) {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    msg && (msg.textContent = "");
+    if (msg) msg.textContent = "";
 
-    const email = form.email.value.trim();
-    const password = form.password.value;
+    const email = form.email?.value?.trim();
+    const password = form.password?.value;
 
     if (!email || !password) {
-      msg && (msg.textContent = "Completa correo y contraseña.");
+      if (msg) msg.textContent = "Completa correo y contraseña.";
       return;
     }
 
     const { ok, status, data } = await postJSON("/api/login", { email, password });
 
     if (!ok) {
-      // Decidir según "code" que manda el backend
       if (status === 404 && data?.code === "usuario_no_encontrado") {
-        // Manda a registro
-        window.location.href = "./registro.html?email=" + encodeURIComponent(email);
+        if (msg) msg.textContent = "Usuario no encontrado.";
         return;
       }
       if (status === 401 && data?.code === "password_invalida") {
-        msg && (msg.textContent = "Contraseña incorrecta.");
+        if (msg) msg.textContent = "Contraseña incorrecta.";
         return;
       }
-      msg && (msg.textContent = "No se pudo iniciar sesión.");
+      if (status === 403 && data?.code === "usuario_inactivo") {
+        if (msg) msg.textContent = "Tu usuario está inactivo.";
+        return;
+      }
+      if (msg) msg.textContent = "No se pudo iniciar sesión.";
       return;
     }
 
-    // Login OK: guarda token y redirige
-    if (data?.token) saveToken(data.token);
-    window.location.href = "./home.html"; // o tu ruta privada/dashboard cuando lo tengas
+    // Login OK
+    if (data?.token) {
+      saveToken(data.token);
+    }
+    // Guarda el sector en localStorage (para precios/vistas)
+    setSectorLocal(data?.user?.sector || "general");
+
+    // Redirige a la home (o dashboard)
+    window.location.href = "./home.html";
   });
 }

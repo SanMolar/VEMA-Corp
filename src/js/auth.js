@@ -1,5 +1,4 @@
-// auth.js
-const TOKEN_KEY = "vema_token";
+ const TOKEN_KEY = "vema_token";
 
 export function saveToken(token) {
   localStorage.setItem(TOKEN_KEY, token);

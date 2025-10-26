@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VEMA Corp — Iniciar sesión</title>
+  <link rel="icon" href="/imagenes/VEMA-transparente.png" type="image/png"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100">
+  <main class="min-h-screen">
+    <!-- Full-screen card -->
+    <section class="h-screen w-full bg-white md:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <!-- Split -->
+      <div class="grid md:grid-cols-2 h-full flex-1">
+        <!-- Lado ilustración -->
+        <div class="relative bg-[#3C2D4D] flex items-center justify-center p-8 md:p-12">
+          <img
+            src="/imagenes/lipieza2.jpg"
+            alt="Ilustración de limpieza"
+            class="max-h-[72vh] w-auto object-contain rounded-xl shadow-xl"
+          />
+          <div class="hidden md:block absolute top-0 right-0 h-full w-12 from-white/0 to-black/10"></div>
+        </div>
+
+        <!-- Lado formulario -->
+        <div class="px-8 sm:px-12 lg:px-16 py-10 flex items-center justify-center">
+          <div class="w-full max-w-2xl">
+            <!-- Logo -->
+            <div class="flex flex-col items-center mb-6">
+              <img src="/imagenes/VEMA-transparente.png" alt="VEMA Corp" class="h-32 sm:h-40 w-auto object-contain select-none"/>
+            </div>
+            <!-- Tabs -->
+            <div class="mt-6 grid grid-cols-2 border border-slate-200 rounded-xl overflow-hidden text-sm">
+              <span class="text-center font-medium bg-slate-100 py-3">Iniciar sesión</span>
+              <a href="./registro.html" class="text-center py-3 hover:bg-slate-50">Crear cuenta</a>
+            </div>
+
+            <!-- Formulario -->
+            <form id="formLogin" method="POST" action="#" class="mt-5 space-y-4">
+              <div>
+                <label for="email" class="sr-only">Correo</label>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="email o usuario"
+                  required
+                  class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                />
+              </div>
+
+              <div>
+                <label for="password" class="sr-only">Contraseña</label>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="password"
+                  required
+                  class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                />
+              </div>
+
+              <button
+                type="submit"
+                class="w-full rounded-xl bg-slate-900 hover:bg-black active:bg-black/80 text-white font-semibold py-3.5 text-base transition"
+              >
+                Log in
+              </button>
+
+              <div class="flex justify-end">
+                <a href="#" class="text-xs text-slate-500 hover:text-slate-700">¿Olvidaste tu contraseña?</a>
+              </div>
+
+              <p id="msg" class="min-h-[1rem] text-center text-sm text-rose-500"></p>
+            </form>
+
+            <!-- Aviso -->
+            <div class="mt-6 rounded-xl border border-amber-300 bg-amber-50 text-amber-800 text-sm px-4 py-3">
+              ¿Buscas la versión anterior de VEMA? <a href="#" class="underline">Ver opciones</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer (opcional; quítalo si no lo usas) -->
+      <footer class="bg-slate-900 text-slate-300 px-8 md:px-12 py-6">
+        <div class="max-w-7xl mx-auto grid sm:grid-cols-2 gap-6 items-center">
+          <div class="flex items-center gap-3">
+            <img src="/imagenes/VEMA-transparente.png" alt="VEMA Corp" class="h-6 w-auto object-contain opacity-90"/>
+            <span class="tracking-wide">VEMA</span>
+          </div>
+          <div class="text-xs sm:text-right space-x-4">
+            <a href="#" class="hover:text-white">Términos</a>
+            <a href="#" class="hover:text-white">Privacidad</a>
+            <a href="#" class="hover:text-white">Soporte</a>
+          </div>
+        </div>
+        <p class="mt-3 text-xs text-slate-400">© 2025 VEMA Corp. Todos los derechos reservados.</p>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Lógica de login (archivo externo) -->
+  <script type="module" src="../js/login.js"></script>
+</body>
+</html>

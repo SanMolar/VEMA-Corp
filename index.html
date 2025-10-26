@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VEMA Corp — HidroCheck TDS-3</title>
+  <link rel="icon" href="/imagenes/android-chrome-512x512.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Brillo suave detrás del producto */
+    .glow {
+      position: absolute;
+      inset: -20%;
+      filter: blur(60px);
+      opacity: .55;
+      pointer-events: none;
+      background:
+        radial-gradient(40% 40% at 20% 30%, rgba(99,102,241,.45), transparent 60%),
+        radial-gradient(35% 35% at 80% 20%, rgba(56,189,248,.45), transparent 60%),
+        radial-gradient(50% 50% at 50% 80%, rgba(16,185,129,.35), transparent 60%);
+    }
+    /* Sombra atractiva en hover para tarjetas */
+    .hover-card:hover {
+      box-shadow:
+        0 10px 25px rgba(2,6,23,.18),
+        0 8px 50px rgba(56,189,248,.15);
+      transform: translateY(-2px);
+    }
+    .shine {
+      background: linear-gradient(110deg, rgba(255,255,255,.12) 0%, rgba(255,255,255,.02) 40%, rgba(255,255,255,.12) 80%);
+      background-size: 200% 100%;
+      animation: shine 2.6s linear infinite;
+      mask-image: radial-gradient(80% 60% at 50% 40%, #000 60%, transparent 100%);
+    }
+    @keyframes shine { to { background-position-x: -200%; } }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+  <!-- Navbar -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-4">
+      <a href="#" class="flex items-center gap-3">
+        <img src="/imagenes/VEMA-transparente.png" alt="VEMA Corp" class="h-7 w-auto object-contain" />
+        <span class="font-semibold tracking-wide">VEMA Corp</span>
+      </a>
+
+      <div class="ml-4 hidden md:flex items-center gap-6 text-sm">
+        <a href="#beneficios" class="hover:text-indigo-600">Beneficios</a>
+        <a href="#galeria" class="hover:text-indigo-600">Galería</a>
+        <a href="#especificaciones" class="hover:text-indigo-600">Especificaciones</a>
+        <a href="#faq" class="hover:text-indigo-600">FAQ</a>
+      </div>
+    </nav>
+  </header>
+  <!-- Promo Bar: Precios especiales -->
+<section id="promo-edu-gov-biz" class="relative border-b border-slate-200">
+  <div class="bg-gradient-to-r from-indigo-600 via-cyan-500 to-emerald-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3 py-2 text-white">
+        <span class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-white/20 text-xs font-bold">★</span>
+        <p class="text-sm md:text-[15px] font-medium">
+          <span class="hidden sm:inline">¡Atención!</span>
+          Precios especiales para <b>escuelas</b>, <b>gobierno</b> y <b>empresas privadas</b>.
+          <span class="opacity-90">Cotizaciones por volumen y facturación incluida.</span>
+        </p>
+        <div class="ml-auto flex items-center gap-2">
+          <a href="/src/pages/registro.html" class="hidden sm:inline-block rounded-lg bg-white/90 text-slate-900 hover:bg-white px-3 py-1.5 text-xs font-semibold">
+            Registrarse 
+          </a>
+          <button id="promo-close" class="ml-1 text-white/80 hover:text-white text-base leading-none">✕</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script>
+  document.getElementById('promo-close')?.addEventListener('click', () => {
+    document.getElementById('promo-edu-gov-biz')?.remove();
+  });
+</script>
+
+
+  <!-- HERO “gancho” -->
+  <section class="relative overflow-hidden">
+    <!-- Fondo con gradiente suave -->
+    <div class="absolute inset-0 bg-gradient-to-b from-cyan-50 via-white to-white"></div>
+    <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Texto / venta -->
+        <div>
+          <span class="inline-flex items-center gap-2 rounded-full border border-cyan-200/60 bg-cyan-50 px-3 py-1 text-[11px] tracking-widest font-semibold text-cyan-700 uppercase">
+            <span class="h-1.5 w-1.5 rounded-full bg-cyan-500"></span> Nuevo producto
+          </span>
+
+          <h1 class="mt-3 text-4xl sm:text-5xl font-extrabold leading-tight text-slate-900">
+            HidroCheck <span class="text-indigo-600">TDS-3</span>
+          </h1>
+          <p class="mt-4 text-slate-600 text-lg">
+            Mide <b>TDS</b> y <b>temperatura</b> en segundos. Resultados confiables para casa, oficina o acuarios.
+            Diseño portátil con <b>IPX4</b> y pantalla clara con <b>auto-hold</b>.
+          </p>
+
+          <!-- Chips -->
+          <div class="mt-6 grid sm:grid-cols-2 gap-3">
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 hover-card">
+              <span class="inline-flex h-2.5 w-2.5 rounded-full bg-indigo-600"></span>
+              <span class="text-sm text-slate-700">Lecturas rápidas (TDS, °C)</span>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 hover-card">
+              <span class="inline-flex h-2.5 w-2.5 rounded-full bg-indigo-600"></span>
+              <span class="text-sm text-slate-700">Diseño portátil e IPX4</span>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 hover-card">
+              <span class="inline-flex h-2.5 w-2.5 rounded-full bg-indigo-600"></span>
+              <span class="text-sm text-slate-700">Pantalla clara y auto-hold</span>
+            </div>
+            <div class="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 hover-card">
+              <span class="inline-flex h-2.5 w-2.5 rounded-full bg-indigo-600"></span>
+              <span class="text-sm text-slate-700">Ideal para casa, oficina o acuarios</span>
+            </div>
+          </div>
+
+          <!-- Precio + CTA -->
+          <div class="mt-7 flex flex-wrap items-center gap-4">
+            <div class="text-3xl font-extrabold tracking-tight">$999 <span class="text-base font-semibold text-slate-500">MXN</span></div>
+
+            <div class="flex items-center rounded-xl border border-slate-200 bg-white">
+              <button class="px-3 py-2 text-slate-600 hover:text-slate-900" id="qty-minus">–</button>
+              <input id="qty" type="number" value="1" min="1" class="w-12 text-center outline-none bg-transparent"/>
+              <button class="px-3 py-2 text-slate-600 hover:text-slate-900" id="qty-plus">+</button>
+            </div>
+          </div>
+
+          <!-- Confianza -->
+          <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-slate-500">
+            <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Garantía 12 meses</span>
+            <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Envío a todo México</span>
+            <span class="inline-flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-emerald-500"></span> Pagos seguros</span>
+          </div>
+        </div>
+        <img class="rounded-xl object-cover border border-slate-100" src="/imagenes/imagen-landingpage.webp" alt="">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios -->
+  <section id="beneficios" class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+    <h2 class="text-xl font-semibold mb-6">¿Por qué elegirlo?</h2>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 backdrop-blur hover-card transition">
+        <div class="text-2xl">⚡</div>
+        <h3 class="mt-3 font-semibold">Resultados inmediatos</h3>
+        <p class="mt-2 text-sm text-slate-600">Lecturas estables en segundos con función auto-hold para capturar el valor exacto.</p>
+      </article>
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 backdrop-blur hover-card transition">
+        <div class="text-2xl">💧</div>
+        <h3 class="mt-3 font-semibold">Para cualquier uso</h3>
+        <p class="mt-2 text-sm text-slate-600">Acuarios, ósmosis inversa, cafeteras, plantas y control de calidad en casa u oficina.</p>
+      </article>
+      <article class="rounded-2xl border border-slate-200 bg-white p-5 backdrop-blur hover-card transition">
+        <div class="text-2xl">🔋</div>
+        <h3 class="mt-3 font-semibold">Portátil y resistente</h3>
+        <p class="mt-2 text-sm text-slate-600">Diseño compacto con estuche, clasificación IPX4 y batería de larga duración.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Galería / prueba social -->
+  <section id="galeria" class="max-w-6xl mx-auto px-4 sm:px-6 pb-12">
+    <div class="rounded-2xl border border-slate-200 bg-white p-6">
+      <div class="flex items-center justify-between gap-3 flex-wrap">
+        <h2 class="text-xl font-semibold">En acción</h2>
+        <div class="text-xs text-slate-500">Fotos de clientes y laboratorio</div>
+      </div>
+      <div class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+        <img class="rounded-xl object-cover aspect-[4/3] border border-slate-100" src="/imagenes/landing-page.webp" alt="">
+        <img class="rounded-xl object-cover aspect-[4/3] border border-slate-100" src="/imagenes/landing-page2.webp.webp" alt="">
+        <img class="rounded-xl object-cover aspect-[4/3] border border-slate-100" src="/imagenes/landing-page3.webp.webp" alt="">
+        <img class="rounded-xl object-cover aspect-[4/3] border border-slate-100" src="/imagenes/landing-page4.webp.webp" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- Especificaciones -->
+  <section id="especificaciones" class="max-w-6xl mx-auto px-4 sm:px-6 pb-12">
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 class="text-xl font-semibold">Especificaciones</h2>
+        <dl class="mt-4 grid grid-cols-2 gap-4 text-sm">
+          <div><dt class="text-slate-500">Rango TDS</dt><dd class="font-medium">0–9990 ppm</dd></div>
+          <div><dt class="text-slate-500">Temperatura</dt><dd class="font-medium">0–80 °C</dd></div>
+          <div><dt class="text-slate-500">Precisión</dt><dd class="font-medium">±2%</dd></div>
+          <div><dt class="text-slate-500">Protección</dt><dd class="font-medium">IPX4</dd></div>
+          <div><dt class="text-slate-500">Auto-hold</dt><dd class="font-medium">Sí</dd></div>
+          <div><dt class="text-slate-500">Alimentación</dt><dd class="font-medium">Baterías LR44</dd></div>
+        </dl>
+      </div>
+      <div class="rounded-2xl border border-slate-200 bg-white p-6">
+        <h2 class="text-xl font-semibold">Caja incluye</h2>
+        <ul class="mt-3 space-y-2 text-sm">
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span> HidroCheck TDS-3</li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span> Estuche protector</li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span> Manual rápido</li>
+          <li class="flex items-center gap-2"><span class="h-1.5 w-1.5 rounded-full bg-indigo-600"></span> Baterías LR44</li>
+        </ul>
+        <a href="#faq" class="inline-block mt-4 text-indigo-700 hover:underline text-sm">Ver preguntas frecuentes →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="max-w-6xl mx-auto px-4 sm:px-6 pb-16">
+    <h2 class="text-xl font-semibold mb-6">FAQ</h2>
+    <div class="space-y-3">
+      <details class="rounded-xl border border-slate-200 bg-white p-4">
+        <summary class="font-medium cursor-pointer">¿Qué es TDS y por qué medirlo?</summary>
+        <p class="mt-2 text-sm text-slate-600">TDS son los sólidos disueltos totales en el agua (sales, minerales, etc.). Medirlos te ayuda a conocer la pureza del agua y a proteger equipos.</p>
+      </details>
+      <details class="rounded-xl border border-slate-200 bg-white p-4">
+        <summary class="font-medium cursor-pointer">¿Necesita calibración?</summary>
+        <p class="mt-2 text-sm text-slate-600">El equipo viene calibrado de fábrica. Recalibra si notas desviaciones tras un uso prolongado.</p>
+      </details>
+      <details class="rounded-xl border border-slate-200 bg-white p-4">
+        <summary class="font-medium cursor-pointer">¿Es resistente al agua?</summary>
+        <p class="mt-2 text-sm text-slate-600">Cuenta con protección IPX4 contra salpicaduras. No sumergir completamente.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-sm text-slate-500 flex flex-col sm:flex-row gap-3 items-center justify-between">
+      <p>© 2025 VEMA Corp — Todos los derechos reservados</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-indigo-700">Privacidad</a>
+        <a href="#" class="hover:text-indigo-700">Términos</a>
+        <a href="#" class="hover:text-indigo-700">Soporte</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mini interacciones -->
+  <script>
+    const minus = document.getElementById('qty-minus');
+    const plus  = document.getElementById('qty-plus');
+    const qty   = document.getElementById('qty');
+    minus?.addEventListener('click', () => qty.value = Math.max(1, (+qty.value||1)-1));
+    plus?.addEventListener('click',  () => qty.value = (+qty.value||1)+1);
+  </script>
+  <script type="module" src="/src/js/home.js"></script>
+</body>
+</html>

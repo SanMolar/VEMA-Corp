@@ -1,137 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VEMA Corp — Crear cuenta</title>
-  <link rel="icon" href="/imagenes/android-chrome-512x512.png" type="image/png" />
-  <!-- Tailwind (CDN para pruebas) -->
+  <link rel="icon" href="/imagenes/VEMA-transparente.png" type="image/png"/>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
-  <main class="w-full max-w-md">
-    <section class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 text-slate-100">
-      <!-- Encabezado -->
-      <div class="mb-6">
-        <h1 class="text-xl font-semibold leading-tight">
-          <span class="block">Crear cuenta en</span>
-        </h1>
-        <div class="mt-2 flex items-center">
-          <img
-            src="/imagenes/VEMA-transparente.png"
-            alt="VEMA Corp"
-            class="h-8 sm:h-10 w-auto object-contain align-middle drop-shadow-[0_1px_8px_rgba(255,255,255,0.2)]"
-            loading="eager"
-            decoding="async"
-          />
-        </div>
-        <p class="mt-2 text-sm text-slate-300">Regístrate para comenzar</p>
-      </div>
-
-      <!-- Formulario de registro -->
-      <form id="formRegister" class="space-y-5" method="POST" action="#">
-        <!-- Nombre -->
-        <div>
-          <label for="name" class="block text-sm font-medium mb-1">Nombre</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="Tu nombre"
-            required
-            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
-                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-          />
+<body class="min-h-screen bg-slate-100">
+  <main class="min-h-screen">
+    <!-- Full-screen card -->
+    <section class="h-screen w-full bg-white md:rounded-2xl shadow-2xl overflow-hidden flex flex-col">
+      <!-- Split -->
+      <div class="grid md:grid-cols-2 h-full flex-1">
+        <!-- Ilustración -->
+        <div class="relative bg-[#3C2D4D] flex items-center justify-center p-8 md:p-12">
+          <img src="/imagenes/lipieza2.jpg" alt="Ilustración"
+               class="max-h-[72vh] w-auto object-contain rounded-xl shadow-xl" />
+          <div class="hidden md:block absolute top-0 right-0 h-full w-12 bg-gradient-to-l from-white/0 to-black/10"></div>
         </div>
 
-        <!-- Correo -->
-        <div>
-          <label for="email" class="block text-sm font-medium mb-1">Correo</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="correo@ejemplo.com"
-            required
-            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
-                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-          />
-        </div>
+        <!-- Formulario (lado derecho) -->
+        <div class="px-8 sm:px-12 lg:px-16 py-10 flex items-center justify-center">
+          <div class="w-full max-w-2xl">
+            <!-- Encabezado con logo -->
+            <div class="flex items-center gap-3 mb-5">
+              <img src="/imagenes/VEMA-transparente.png" alt="VEMA Corp"
+                   class="h-12 sm:h-14 w-auto object-contain select-none"/>
+              <div class="leading-tight">
+                <p class="text-xs text-slate-500">Bienvenido a</p>
+                <h1 class="text-lg sm:text-xl font-semibold tracking-tight text-slate-900">VEMA Corp</h1>
+              </div>
+            </div>
+            <div class="h-px bg-slate-200 mb-5"></div>
 
-        <!-- Contraseña -->
-        <div>
-          <label for="password" class="block text-sm font-medium mb-1">Contraseña</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="********"
-            required
-            minlength="8"
-            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
-                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-          />
-          <p class="mt-1 text-xs text-slate-400">Mínimo 8 caracteres.</p>
-        </div>
+            <!-- Tabs: Crear cuenta activo -->
+            <div class="grid grid-cols-2 border border-slate-200 rounded-xl overflow-hidden text-sm">
+              <span class="text-center font-medium bg-slate-100 py-3">Crear cuenta</span>
+              <a href="/login.html" class="text-center py-3 hover:bg-slate-50">Iniciar sesión</a>
+            </div>
 
-        <!-- Confirmación de contraseña -->
-        <div>
-          <label for="confirm_password" class="block text-sm font-medium mb-1">Confirmar contraseña</label>
-          <input
-            id="confirm_password"
-            name="confirm_password"
-            type="password"
-            placeholder="********"
-            required
-            minlength="8"
-            class="w-full rounded-xl bg-white/5 border border-white/20 px-4 py-2.5 outline-none placeholder:text-slate-400
-                   focus:ring-2 focus:ring-indigo-400 focus:border-transparent"
-          />
-        </div>
+            <!-- (Opcional) Tipo de cuenta, igual que en login -->
+            <p class="mt-6 text-sm text-slate-600 mb-2">Su cuenta es de tipo</p>
+            <fieldset class="grid grid-cols-3 rounded-xl border border-slate-200 overflow-hidden">
+              <label class="block">
+                <input type="radio" name="tipo" value="escuela" class="peer sr-only" checked />
+                <span class="block text-center text-sm py-3 cursor-pointer bg-white peer-checked:bg-slate-100 peer-checked:font-medium">Escuela</span>
+              </label>
+              <label class="block border-x border-slate-200">
+                <input type="radio" name="tipo" value="gobierno" class="peer sr-only" />
+                <span class="block text-center text-sm py-3 cursor-pointer bg-white peer-checked:bg-slate-100 peer-checked:font-medium">Gobierno</span>
+              </label>
+              <label class="block">
+                <input type="radio" name="tipo" value="empresas" class="peer sr-only" />
+                <span class="block text-center text-sm py-3 cursor-pointer bg-white peer-checked:bg-slate-100 peer-checked:font-medium">Empresas</span>
+              </label>
+            </fieldset>
 
-        <!-- Términos -->
-        <div class="text-sm">
-          <label class="inline-flex items-start gap-3 select-none">
-            <input type="checkbox" required class="mt-1 h-4 w-4 rounded border-white/30 bg-white/5 text-indigo-400 focus:ring-indigo-400"/>
-            <span class="text-slate-300">
-              Acepto los <a href="#" class="text-indigo-300 hover:text-indigo-200 hover:underline">Términos y Condiciones</a>
-              y el <a href="#" class="text-indigo-300 hover:text-indigo-200 hover:underline">Aviso de Privacidad</a>.
-            </span>
-          </label>
-        </div>
+            <!-- Formulario de registro -->
+            <form id="formRegister" class="mt-5 space-y-4" method="POST" action="#">
+              <!-- Nombre -->
+              <div>
+                <label for="name" class="sr-only">Nombre</label>
+                <input id="name" name="name" type="text" placeholder="Tu nombre" required
+                       class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+              </div>
 
-        <!-- Botón principal -->
-        <button
-          type="submit"
-          class="w-full rounded-xl bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 px-4 py-2.5 font-semibold
-                 shadow-lg shadow-indigo-500/20 transition"
-        >
-          Crear cuenta
-        </button>
+              <!-- Correo -->
+              <div>
+                <label for="email" class="sr-only">Correo</label>
+                <input id="email" name="email" type="email" placeholder="correo@ejemplo.com" required
+                       class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+              </div>
 
-        <!-- Divider -->
-        <div class="flex items-center gap-3">
-          <div class="h-px flex-1 bg-white/20"></div>
-          <span class="text-xs text-slate-400">¿Ya tienes cuenta?</span>
-          <div class="h-px flex-1 bg-white/20"></div>
-        </div>
+              <!-- Contraseña -->
+              <div>
+                <label for="password" class="sr-only">Contraseña</label>
+                <input id="password" name="password" type="password" placeholder="********" required minlength="8"
+                       class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+                <p class="mt-1 text-xs text-slate-500">Mínimo 8 caracteres.</p>
+              </div>
 
-        <!-- Botón secundario (volver a login) -->
-        <a
-          href="./index.html"
-          class="block w-full text-center rounded-xl border border-white/20 bg-white/5 hover:bg-white/10 px-4 py-2.5
-                 text-slate-100 transition"
-        >
-          Iniciar sesión
-        </a>
-      </form>
-    </section>
+              <!-- Confirmación -->
+              <div>
+                <label for="confirm_password" class="sr-only">Confirmar contraseña</label>
+                <input id="confirm_password" name="confirm_password" type="password" placeholder="********" required minlength="8"
+                       class="w-full rounded-xl border border-slate-200 px-5 py-3.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"/>
+              </div>
 
-    <!-- Footer mini -->
-    <p class="mt-4 text-center text-xs text-slate-400">
-      © <span id="year">2025</span> VEMA Corp — Todos los derechos reservados
-    </p>
+              <!-- Términos -->
+              <div class="text-sm">
+                <label class="inline-flex items-start gap-3 select-none">
+                  <input type="checkbox" required
+                         class="mt-1 h-4 w-4 rounded border-slate-300 text-indigo-500 focus:ring-indigo-400"/>
+                  <span class="text-slate-600">
+                    Acepto los <a href="#" class="text-indigo-600 hover:text-indigo-500 underline">Términos y Condiciones</a>
+                    y el <a href="#" class="text-indigo-600 hover:text-indigo-500 underline">Aviso de Privacidad</a>.
+                  </span>
+                </label>
+              </div>
+
+              <!-- Botón principal -->
+              <button type="submit"
+                      class="w-full rounded-xl bg-slate-900 hover:bg-black active:bg-black/80 text-white font-semibold py-3.5 text-base transition">
+                Crear cuenta
+              </button>
+            </form>
   </main>
+
   <script type="module" src="../js/registro.js"></script>
 </body>
 </html>
