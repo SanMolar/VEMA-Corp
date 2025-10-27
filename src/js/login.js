@@ -1,4 +1,4 @@
-import { postJSON } from "./api.js";
+import { postJSON } from "../js/api.js";
 import { saveToken } from "./auth.js";
 
 const form = document.getElementById("formLogin");
