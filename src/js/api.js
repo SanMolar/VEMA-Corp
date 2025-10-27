@@ -1,20 +1,27 @@
 // src/js/api.js
 
-// Puedes sobreescribir desde HTML si quieres:
-// <script>window.__API_BASE__ = 'https://mi-backend.com'</script>
-const fromWindow = (typeof window !== 'undefined' && window.__API_BASE__) || null;
+// (Opcional) puedes sobreescribir la URL desde el HTML antes de cargar este archivo:
+// <script>window.__API_BASE__ = 'https://tu-backend-publico.com'</script>
+const fromWindow =
+  (typeof window !== 'undefined' && window.__API_BASE__) || null;
 
-// ¿Estás trabajando en local?
+// ¿Estamos en local?
 const isLocalHost = ['localhost', '127.0.0.1'].includes(location.hostname);
 
-// URLs base por entorno
-const DEV_API  = 'http://localhost:3000';
-const PROD_API = '/api'; // en Netlify lo proxyaremos a tu backend público
+// Base por entorno
+const DEV_API  = 'http://localhost:3000'; // backend local
+const PROD_API = '/api';                   // en Netlify se proxyará al backend público
 
-// BASE FINAL (prioridad: window -> local/prod)
+// URL final (prioridad: window -> local -> prod)
 export const API_BASE = fromWindow || (isLocalHost ? DEV_API : PROD_API);
 
-// Helpers
+// --- Helpers de fetch ---
+async function parseJSONSafe(res) {
+  const text = await res.text();
+  try { return text ? JSON.parse(text) : null; }
+  catch { return { raw: text }; }
+}
+
 export async function postJSON(path, body, { withCredentials = false } = {}) {
   try {
     const res = await fetch(`${API_BASE}${path}`, {
@@ -23,13 +30,10 @@ export async function postJSON(path, body, { withCredentials = false } = {}) {
       body: JSON.stringify(body ?? {}),
       credentials: withCredentials ? 'include' : 'same-origin',
     });
-
-    const text = await res.text();
-    let data = null;
-    try { data = text ? JSON.parse(text) : null; } catch { data = { raw: text }; }
-
+    const data = await parseJSONSafe(res);
     return { ok: res.ok, status: res.status, data };
   } catch {
+    // error de red / CORS / proxy
     return { ok: false, status: 0, data: null };
   }
 }
