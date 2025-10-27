@@ -22,7 +22,7 @@ export async function createMpPreference(customer, cartItems) {
     })),
   };
 
-  const { ok, data } = await postJSONAuth("/api/checkout-mp", payload);
+  const { ok, data } = await postJSONAuth("/checkout-mp", payload);
 
   if (!ok || !data?.init_point) {
     const msg = data?.message || data?.error || "No se pudo crear la preferencia de pago.";

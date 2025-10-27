@@ -42,7 +42,7 @@ if (form) {
     }
 
     // Enviamos también el sector al backend
-    const { ok, status, data } = await postJSON("/api/register", { email, password, sector });
+    const { ok, status, data } = await postJSON("/register", { email, password, sector });
 
     if (!ok) {
       if (status === 409 && data?.code === "email_ya_registrado") {

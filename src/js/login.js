@@ -23,7 +23,7 @@ if (form) {
       return;
     }
 
-    const { ok, status, data } = await postJSON("/api/login", { email, password });
+    const { ok, status, data } = await postJSON("/login", { email, password });
 
     if (!ok) {
       if (status === 404 && data?.code === "usuario_no_encontrado") {
