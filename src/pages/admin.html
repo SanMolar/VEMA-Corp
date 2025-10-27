@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Administración — Usuarios</title>
+
+  <!-- Tailwind (rápido). Si ya tienes tu build, reemplaza por tu CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* toasts minimalistas */
+    .toast{position:fixed;right:1rem;top:1rem;z-index:50}
+    .toast>div{margin-top:.5rem}
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+
+  <!-- Navbar básica (deja la tuya si ya la tienes) -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-slate-200">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-3">
+      <a href="/pages/home.html" class="font-semibold text-slate-800">VEMA Corp</a>
+      <nav class="ml-auto flex items-center gap-3 text-sm">
+        <a href="/pages/home.html" class="text-slate-600 hover:text-slate-900">Inicio</a>
+        <a href="/pages/admin.html" id="nav-admin" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white">Usuarios</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Título + acciones -->
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+      <div>
+        <h1 class="text-2xl font-bold tracking-tight">Usuarios</h1>
+        <p class="text-slate-500 text-sm">Gestiona roles (USER / MANAGER / ADMIN).</p>
+      </div>
+
+      <!-- Buscador -->
+      <div class="w-full sm:w-96">
+        <label class="block text-xs font-medium text-slate-500 mb-1">Buscar por email</label>
+        <div class="relative">
+          <input id="q" type="search" placeholder="usuario@correo.com"
+                 class="w-full rounded-xl border border-slate-300 bg-white px-10 py-2.5 text-sm outline-none focus:ring-4 focus:ring-slate-200"/>
+          <!-- Icono lupa -->
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="7" stroke-width="2"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke-width="2"></line>
+          </svg>
+          <button id="buscar" class="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 text-sm rounded-lg bg-slate-900 text-white hover:bg-slate-800">
+            Buscar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenedor tabla -->
+    <div class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50 text-slate-600">
+          <tr>
+            <th class="text-left font-medium px-4 py-3">Email</th>
+            <th class="text-left font-medium px-4 py-3">Rol</th>
+            <th class="text-left font-medium px-4 py-3 w-40">Acción</th>
+          </tr>
+        </thead>
+        <tbody id="users-body">
+          <!-- skeletons de carga -->
+          <tr class="border-t border-slate-100" id="row-skel-1">
+            <td class="px-4 py-3"><div class="h-4 w-56 bg-slate-100 rounded animate-pulse"></div></td>
+            <td class="px-4 py-3"><div class="h-6 w-24 bg-slate-100 rounded-full animate-pulse"></div></td>
+            <td class="px-4 py-3"><div class="h-9 w-28 bg-slate-100 rounded-lg animate-pulse"></div></td>
+          </tr>
+          <tr class="border-t border-slate-100" id="row-skel-2">
+            <td class="px-4 py-3"><div class="h-4 w-64 bg-slate-100 rounded animate-pulse"></div></td>
+            <td class="px-4 py-3"><div class="h-6 w-24 bg-slate-100 rounded-full animate-pulse"></div></td>
+            <td class="px-4 py-3"><div class="h-9 w-28 bg-slate-100 rounded-lg animate-pulse"></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- vacío -->
+    <div id="empty" class="hidden text-center py-12">
+      <div class="mx-auto mb-3 h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center">
+        <svg class="h-5 w-5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9" /><line x1="9" y1="12" x2="15" y2="12" /></svg>
+      </div>
+      <p class="text-slate-600">No se encontraron usuarios.</p>
+    </div>
+
+    <!-- paginación -->
+    <div class="mt-6 flex items-center justify-between">
+      <button id="prev" class="px-3 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 disabled:opacity-40">Anterior</button>
+      <span id="pagInfo" class="text-slate-500 text-sm">—</span>
+      <button id="next" class="px-3 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-50 disabled:opacity-40">Siguiente</button>
+    </div>
+  </main>
+
+  <!-- toasts -->
+  <div class="toast" id="toast"></div>
+
+  <!-- tus scripts -->
+  <script src="/src/js/api.js"></script>
+  <script src="/src/js/admin.js"></script>
+</body>
+</html>
