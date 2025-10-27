@@ -1,33 +1,31 @@
 // src/js/api.js
 
+// (opcional) puedes fijar la base desde el HTML:
+// <script>window.__API_BASE__ = 'https://tu-backend-publico.com/api'</script>
 const fromWindow =
   (typeof window !== 'undefined' && window.__API_BASE__) || null;
 
 const isLocalHost = ['localhost', '127.0.0.1'].includes(location.hostname);
-const DEV_API  = 'http://localhost:3000';
-const PROD_API = '/api';
+
+// ⚠️ Si tu backend usa prefijo /api en sus rutas, deja DEV_API con /api al final
+const DEV_API  = 'http://localhost:3000/api'; // <-- nota el /api aquí
+const PROD_API = '/api';                      // Netlify lo proxyará a tu backend
+
 export const API_BASE = fromWindow || (isLocalHost ? DEV_API : PROD_API);
 
-// Quita prefijo /api si alguien lo pasa por error y asegura el slash inicial
-function normalizePath(path = '') {
+// Helpers
+function buildUrl(path = '') {
   if (typeof path !== 'string') path = String(path ?? '');
-  if (path.startsWith('http')) return path;       // URL absoluta → respeta
-  if (path.startsWith('/api/')) path = path.slice(4); // evita /api/api/...
-  if (!path.startsWith('/')) path = '/' + path;
-  return path;
-}
-
-// (opcional) ayuda a depurar qué URL estás llamando
-function buildUrl(path) {
-  const p = normalizePath(path);
-  const url = `${API_BASE}${p}`;
-  console.log('[api] →', url); // quítalo cuando confirmes
+  if (!path.startsWith('/')) path = '/' + path; // asegura slash inicial
+  const url = `${API_BASE}${path}`;
+  console.log('[api] →', url); // quita este log cuando confirmes
   return url;
 }
 
 async function parseJSONSafe(res) {
   const text = await res.text();
-  try { return text ? JSON.parse(text) : null; } catch { return { raw: text }; }
+  try { return text ? JSON.parse(text) : null; }
+  catch { return { raw: text }; }
 }
 
 export async function postJSON(path, body, { withCredentials = false } = {}) {
