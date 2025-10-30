@@ -56,10 +56,10 @@ if (form) {
       return;
     }
 
-    // Llama al helper (nativo o fallback)
-    const { ok, status, data } = await postJSON("/login", { email, password });
+    // ⬇️ ÚNICO CAMBIO: usa /api/login
+    const { ok, status, data } = await postJSON("/api/login", { email, password });
     // Si usas cookies/sesiones y necesitas enviar credenciales:
-    // const { ok, status, data } = await postJSON("/login", { email, password }, { withCredentials: true });
+    // const { ok, status, data } = await postJSON("/api/login", { email, password }, { withCredentials: true });
 
     if (!ok) {
       if (status === 404 && data?.code === "usuario_no_encontrado") {

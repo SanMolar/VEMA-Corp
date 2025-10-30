@@ -5,7 +5,7 @@
   const fromWindow =
     (typeof window !== 'undefined' && window.__API_BASE__) || null;
 
-  // 👇 NUEVO: tomar VITE_API_URL si Vite lo inyecta
+  // 👇 NUEVO: tomar VITE_API_URL si Vite lo inyecta (en build de producción)
   const fromVite =
     (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || null;
 
@@ -64,6 +64,7 @@
     }
   }
 
+  // Exponer en global para otros scripts (admin.js, login.js, etc.)
   if (typeof window !== 'undefined') {
     window.API_BASE = API_BASE;
     window.buildUrl = buildUrl;
