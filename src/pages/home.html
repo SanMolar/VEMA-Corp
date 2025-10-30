@@ -102,9 +102,7 @@
         <a href="#galeria" class="hover:text-indigo-600">Galería</a>
         <a href="#especificaciones" class="hover:text-indigo-600">Especificaciones</a>
         <a href="#faq" class="hover:text-indigo-600">FAQ</a>
-        <!-- dentro de tu <nav> ... -->
-<a href="/pages/admin.html" id="nav-admin">Usuarios</a>
-
+        <a href="./admins.html">Usuarios</a>
       </div>
 
       <div class="flex items-center gap-3">
@@ -112,7 +110,7 @@
           Carrito
           <span id="cart-badge" class="absolute -top-2 -right-2 text-[10px] bg-slate-900 text-white rounded-full px-1.5 py-0.5 shadow-sm">0</span>
         </button>
-        <a href="./index.html" class="btn-ghost rounded-lg px-4 py-2 text-sm text-slate-800">
+        <a href="./login.html" class="btn-ghost rounded-lg px-4 py-2 text-sm text-slate-800">
           Cerrar sesión
         </a>
       </div>
@@ -158,9 +156,9 @@
             Añadir al carrito
           </button>
           <!-- Controles de modo (single/bulk) -->
-<div id="bulk-controls" class="mt-3 flex gap-2">
-  <button id="btn-bulk"   type="button" class="px-3 py-2 rounded-lg border border-slate-200">Comprar varios</button>
-</div>
+          <div id="bulk-controls" class="mt-3 flex gap-2">
+            <button id="btn-bulk"   type="button" class="px-3 py-2 rounded-lg border border-slate-200">Comprar varios</button>
+          </div>
 
         </div>
       </div>
@@ -400,6 +398,5 @@
     }, {threshold: .12});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
   </script>
-  </style>
 </body>
 </html>

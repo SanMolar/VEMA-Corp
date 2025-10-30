@@ -1,57 +1,74 @@
-// src/js/api.js
+// src/js/api.js (NO módulos: sin "export", todo queda en window)
+(function () {
+  // (Opcional) puedes fijar la base desde el HTML antes de cargar este archivo:
+  // <script>window.__API_BASE__ = 'https://tu-backend-publico.com/api'</script>
+  const fromWindow =
+    (typeof window !== 'undefined' && window.__API_BASE__) || null;
 
-// (opcional) puedes fijar la base desde el HTML:
-// <script>window.__API_BASE__ = 'https://tu-backend-publico.com/api'</script>
-const fromWindow =
-  (typeof window !== 'undefined' && window.__API_BASE__) || null;
+  // 👇 NUEVO: tomar VITE_API_URL si Vite lo inyecta
+  const fromVite =
+    (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL) || null;
 
-const isLocalHost = ['localhost', '127.0.0.1'].includes(location.hostname);
+  // ¿Estamos en local?
+  const isLocalHost = ['localhost', '127.0.0.1'].includes(location.hostname);
 
-// ⚠️ Si tu backend usa prefijo /api en sus rutas, deja DEV_API con /api al final
-const DEV_API  = 'http://localhost:3000/api'; // <-- nota el /api aquí
-const PROD_API = '/api';                      // Netlify lo proxyará a tu backend
+  // 👇 DEV: si tu backend local usa /api, déjalo así; si no, quita /api
+  const DEV_API  = 'http://localhost:3000/api';
 
-export const API_BASE = fromWindow || (isLocalHost ? DEV_API : PROD_API);
+  // 👇 En producción, si NO usas proxy de Netlify, esto no se usará (prioriza fromVite)
+  const PROD_API = '/api';
 
-// Helpers
-function buildUrl(path = '') {
-  if (typeof path !== 'string') path = String(path ?? '');
-  if (!path.startsWith('/')) path = '/' + path; // asegura slash inicial
-  const url = `${API_BASE}${path}`;
-  console.log('[api] →', url); // quita este log cuando confirmes
-  return url;
-}
+  // URL base final (prioridad: window -> Vite -> entorno)
+  const API_BASE = fromWindow || fromVite || (isLocalHost ? DEV_API : PROD_API);
 
-async function parseJSONSafe(res) {
-  const text = await res.text();
-  try { return text ? JSON.parse(text) : null; }
-  catch { return { raw: text }; }
-}
-
-export async function postJSON(path, body, { withCredentials = false } = {}) {
-  try {
-    const res = await fetch(buildUrl(path), {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body ?? {}),
-      credentials: withCredentials ? 'include' : 'same-origin',
-    });
-    const data = await parseJSONSafe(res);
-    return { ok: res.ok, status: res.status, data };
-  } catch {
-    return { ok: false, status: 0, data: null };
+  // ---- Helpers ----
+  function buildUrl(path = '') {
+    if (typeof path !== 'string') path = String(path ?? '');
+    if (!path.startsWith('/')) path = '/' + path; // asegura slash inicial
+    const url = `${API_BASE}${path}`;
+    return url;
   }
-}
 
-export async function getJSON(path, { withCredentials = false } = {}) {
-  try {
-    const res = await fetch(buildUrl(path), {
-      method: 'GET',
-      credentials: withCredentials ? 'include' : 'same-origin',
-    });
-    const data = await res.json().catch(() => null);
-    return { ok: res.ok, status: res.status, data };
-  } catch {
-    return { ok: false, status: 0, data: null };
+  async function parseJSONSafe(res) {
+    const text = await res.text();
+    try { return text ? JSON.parse(text) : null; }
+    catch { return { raw: text }; }
   }
-}
+
+  async function postJSON(path, body, { withCredentials = false, headers = {} } = {}) {
+    try {
+      const res = await fetch(buildUrl(path), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...headers },
+        body: JSON.stringify(body ?? {}),
+        credentials: withCredentials ? 'include' : 'same-origin',
+      });
+      const data = await parseJSONSafe(res);
+      return { ok: res.ok, status: res.status, data };
+    } catch {
+      return { ok: false, status: 0, data: null };
+    }
+  }
+
+  async function getJSON(path, { withCredentials = false, headers = {} } = {}) {
+    try {
+      const res = await fetch(buildUrl(path), {
+        method: 'GET',
+        headers,
+        credentials: withCredentials ? 'include' : 'same-origin',
+      });
+      const data = await res.json().catch(() => null);
+      return { ok: res.ok, status: res.status, data };
+    } catch {
+      return { ok: false, status: 0, data: null };
+    }
+  }
+
+  if (typeof window !== 'undefined') {
+    window.API_BASE = API_BASE;
+    window.buildUrl = buildUrl;
+    window.postJSON = postJSON;
+    window.getJSON  = getJSON;
+    window.api = { API_BASE, buildUrl, postJSON, getJSON };
+  }
+})();

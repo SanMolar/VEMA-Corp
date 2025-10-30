@@ -1,69 +1,85 @@
-// Protege la ruta: solo ADMIN
-const token = localStorage.getItem("token");
-if (!token) location.href = "/pages/login.html";
+// src/js/admin.js — versión con diagnóstico y tolerante a formatos
 
-import { getRoleFromToken, setupAdminNav } from "./auth.js";
-setupAdminNav();
-if (getRoleFromToken() !== "ADMIN") location.href = "/pages/home.html";
-
-// Helpers
-const headers = {
-  "Content-Type": "application/json",
-  "Authorization": `Bearer ${token}`
-};
-
-let page = 1, limit = 10, q = "";
 const $tbody = document.getElementById("users-body");
-const $q = document.getElementById("q");
-const $buscar = document.getElementById("buscar");
-const $prev = document.getElementById("prev");
-const $next = document.getElementById("next");
-const $pagInfo = document.getElementById("pagInfo");
+const $empty = document.getElementById("empty");
 
-async function fetchUsers() {
-  const res = await fetch(`${API_BASE}/users?page=${page}&limit=${limit}&q=${encodeURIComponent(q)}`, { headers });
-  if (!res.ok) { alert("Error al listar usuarios"); return; }
-  const { data, total } = await res.json();
-  renderRows(data);
-  $pagInfo.textContent = `Página ${page} — ${data.length} / ${total}`;
-  $prev.disabled = page === 1;
-  $next.disabled = page * limit >= total;
-}
-
-function renderRows(users) {
-  $tbody.innerHTML = users.map(u => `
-    <tr>
-      <td>${u.email}</td>
-      <td>
-        <select data-id="${u.id}">
-          <option ${u.role==='USER'?'selected':''}>USER</option>
-          <option ${u.role==='MANAGER'?'selected':''}>MANAGER</option>
-          <option ${u.role==='ADMIN'?'selected':''}>ADMIN</option>
-        </select>
+// 1) Helpers
+function row(u) {
+  const created = u.created_at || u.createdAt || u.created || null;
+  return `
+    <tr class="border-t border-slate-100">
+      <td class="px-4 py-3 font-medium">${u.email ?? "-"}</td>
+      <td class="px-4 py-3">${u.role ?? "-"}</td>
+      <td class="px-4 py-3 text-slate-500 text-sm">
+        ${created ? new Date(created).toLocaleString() : "-"}
       </td>
-      <td><button class="btn-guardar" data-id="${u.id}">Guardar</button></td>
     </tr>
-  `).join("");
+  `;
 }
 
-$tbody.addEventListener("click", async (e) => {
-  if (!e.target.classList.contains("btn-guardar")) return;
-  const id = e.target.getAttribute("data-id");
-  const select = $tbody.querySelector(`select[data-id="${id}"]`);
-  const role = select.value;
+function showEmpty(msg = "No hay usuarios registrados.") {
+  $tbody.innerHTML = "";
+  if ($empty) { $empty.textContent = msg; $empty.classList.remove("hidden"); }
+}
 
-  const res = await fetch(`${API_BASE}/users/${id}/role`, {
-    method: "PATCH",
-    headers,
-    body: JSON.stringify({ role })
-  });
-  if (res.status === 409) return alert("No puedes dejar sin admins");
-  if (!res.ok) return alert("Error al cambiar rol");
-  await fetchUsers();
-});
+function skeleton() {
+  $tbody.innerHTML = `
+    <tr class="border-t border-slate-100">
+      <td class="px-4 py-3"><div class="h-4 w-48 bg-slate-100 rounded animate-pulse"></div></td>
+      <td class="px-4 py-3"><div class="h-4 w-20 bg-slate-100 rounded animate-pulse"></div></td>
+      <td class="px-4 py-3"><div class="h-4 w-32 bg-slate-100 rounded animate-pulse"></div></td>
+    </tr>
+  `;
+  if ($empty) $empty.classList.add("hidden");
+}
 
-$buscar.addEventListener("click", () => { q = $q.value.trim(); page = 1; fetchUsers(); });
-$prev.addEventListener("click", () => { page = Math.max(1, page - 1); fetchUsers(); });
-$next.addEventListener("click", () => { page += 1; fetchUsers(); });
+// 2) Carga
+async function loadUsers() {
+  skeleton();
 
-fetchUsers();
+  // Si tienes token, lo mandamos; si no, no pasa nada.
+  const token = localStorage.getItem("token");
+  const headers = token ? { "Authorization": `Bearer ${token}` } : {};
+
+  // Endpoint: API_BASE sale de src/js/api.js (asegúrate de cargarlo antes)
+  const url = `${API_BASE}/users`;
+  console.log("[admin] GET", url);
+
+  try {
+    const res = await fetch(url, { headers });
+    console.log("[admin] status", res.status);
+
+    // Intentamos leer el cuerpo (si no es JSON válido, caerá al catch)
+    const json = await res.json().catch(() => null);
+    console.log("[admin] json", json);
+
+    if (!res.ok) {
+      // 404 = ruta incorrecta (probablemente /api extra o falta)
+      // 401/403 = backend pide auth o no autoriza
+      showEmpty(`Error HTTP ${res.status}. Revisa la consola.`);
+      return;
+    }
+
+    // Aceptar varios formatos
+    let list = [];
+    if (Array.isArray(json)) list = json;
+    else if (json && Array.isArray(json.data)) list = json.data;
+    else if (json && Array.isArray(json.users)) list = json.users;
+    else if (json && Array.isArray(json.rows)) list = json.rows;
+
+    if (!list.length) {
+      showEmpty();
+      return;
+    }
+
+    if ($empty) $empty.classList.add("hidden");
+    $tbody.innerHTML = list.map(row).join("");
+
+  } catch (e) {
+    console.error("[admin] fallo fetch:", e);
+    showEmpty("No se pudo cargar la lista. Revisa la consola.");
+  }
+}
+
+// 3) Init
+loadUsers();
