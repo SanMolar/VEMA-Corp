@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VEMA Corp — HidroCheck</title>
   <link rel="icon" href="/imagenes/VEMA-transparente.png" type="image/png"/>
-  <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -103,7 +102,7 @@
         <a href="#galeria" class="hover:text-indigo-600">Galería</a>
         <a href="#especificaciones" class="hover:text-indigo-600">Especificaciones</a>
         <a href="#faq" class="hover:text-indigo-600">FAQ</a>
-        <a href="./admins.html">Usuarios</a>
+        <a href="/admins.html">Usuarios</a>
       </div>
 
       <div class="flex items-center gap-3">
@@ -386,12 +385,37 @@
       </div>
     </div>
   </section>
-  <script>
-  window.__API_BASE__ = "https://armanda-intravascular-claris.ngrok-free.dev/api";
-</script>
 
   <!-- SCRIPT PRINCIPAL (tu lógica) -->
-  <script type="module" src="../js/home.js"></script>
+  <script>window.__FAKE_PAYMENT__ = true;</script>
+<script type="module" src="../js/home.js"></script>
+<script type="module">
+  import { clearCart } from "../js/cart.js";  // ajusta la ruta si es necesario
+
+  const params = new URLSearchParams(location.search);
+  const ok = params.get("success") === "1";
+
+  if (ok) {
+    // Muestra banner de éxito
+    const box = document.getElementById("payment-success");
+    if (box) box.classList.remove("hidden");
+
+    // Limpia carrito (por si no se hizo aún) y actualiza UI
+    try { clearCart(); } catch {}
+    
+    // Quita el query ?success=1 para no repetir el banner si recargas
+    history.replaceState({}, "", location.pathname);
+    
+    // (Opcional) cierra el checkout si estuviera abierto
+    const checkout = document.getElementById("checkout");
+    if (checkout) checkout.classList.add("hidden");
+    
+    // (Opcional) scroll al banner
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+</script>
+
+
 
   <!-- micro-interacción reveal on scroll (sin librerías, ligero) -->
   <script>

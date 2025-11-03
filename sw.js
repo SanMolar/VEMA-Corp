@@ -15,8 +15,10 @@ const PRECACHE_URLS = [
   '/src/js/api.js',
   '/src/js/login.js',
   '/src/js/auth.js',
-  '/imagenes/icon-192.png',
-  '/imagenes/icon-512.png',
+  '/imagenes/landing-page.webp',
+  '/imagenes/landing-page2.webp.webp',
+  '/imagenes/landing-page3.webp.webp',
+  '/imagenes/landing-page4.webp.webp'
 ];
 
 /* ⚙️ INSTALL: precache */

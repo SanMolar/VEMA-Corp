@@ -1,7 +1,16 @@
-/* src/js/home.js — precios por sector + modo single/bulk + MP */
+/* src/js/home.js — precios por sector + modo single/bulk + MP (demo) */
 const $  = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const money = (n) => Number(n || 0).toLocaleString("es-MX");
+
+// Lee el precio unitario visible en pantalla (para persistirlo en el carrito)
+function getCurrentUnitPrice() {
+  const el = document.querySelector("[data-product-price]");
+  if (!el) return 0;
+  const raw = (el.textContent || "").replace(/[^\d.,]/g, "").replace(",", ".");
+  return Number(raw) || 0;
+}
+
 const API_BASE = "http://localhost:3000";
 
 /* --------- Estado de sesión/sector --------- */
@@ -64,6 +73,24 @@ function setAccountBadge() {
 const CART_KEY = "vema_cart";
 let cart = loadCart();
 
+// Asegura que todos los ítems del carrito tengan price.
+// Usa el precio unitario visible actualmente si falta.
+function migrateCartPrices() {
+  const unit = getCurrentUnitPrice();
+  if (!Array.isArray(cart) || cart.length === 0) return;
+  let changed = false;
+  cart.forEach(it => {
+    if (it && (it.price === undefined || it.price === null || isNaN(Number(it.price)))) {
+      it.price = Number(unit || 0);
+      changed = true;
+    }
+  });
+  if (changed) saveCart();
+}
+// Ejecuta la migración al cargar
+migrateCartPrices();
+
+
 function loadCart() {
   try {
     const raw = localStorage.getItem(CART_KEY);
@@ -109,20 +136,34 @@ async function updateMainPrice() {
 }
 
 async function updateCartPricingUI() {
-  if (!els.cartList) return;
-  const lines = cart.map((c) => ({ id: c.id, qty: c.qty }));
-  if (!lines.length) {
+  const fallbackLocal = () => {
+  // Antes de sumar, asegura price en todos los ítems
+  migrateCartPrices();
+  const total = cart.reduce((acc, it) => acc + Number(it.price || 0) * Number(it.qty || 0), 0);
+  els.cartSubtotal && (els.cartSubtotal.textContent = money(total));
+  els.cartTotal && (els.cartTotal.textContent = money(total));
+};
+
+  if (!els.cartList || cart.length === 0) {
     els.cartSubtotal && (els.cartSubtotal.textContent = money(0));
     els.cartTotal && (els.cartTotal.textContent = money(0));
     return;
   }
+
+  const lines = cart.map((c) => ({ id: c.id, qty: c.qty }));
   try {
     const pricing = await pricingPreview(lines);
-    const total = pricing.totals?.total ?? 0;
-    els.cartSubtotal && (els.cartSubtotal.textContent = money(total));
-    els.cartTotal && (els.cartTotal.textContent = money(total));
+    const total = Number(pricing?.totals?.total ?? 0);
+    if (total > 0) {
+      els.cartSubtotal && (els.cartSubtotal.textContent = money(total));
+      els.cartTotal && (els.cartTotal.textContent = money(total));
+    } else {
+      // si backend no entrega total (>0), usamos el local
+      fallbackLocal();
+    }
   } catch {
-    // ignore
+    // si falla la preview, usamos el local
+    fallbackLocal();
   }
 }
 
@@ -180,13 +221,18 @@ function addCurrentProductToCart() {
   if (!Number.isFinite(qty) || qty < 1) qty = 1;
   if (sector === "escuela") qty = 1;
 
-  const name = "HidroCheck TDS-3";
+  const name  = "HidroCheck TDS-3";
   const image = $("#gallery-main")?.src || "/imagenes/hidrocheck-main.jpg";
-  const id = "hidrocheck";
+  const id    = "hidrocheck";
+  const price = getCurrentUnitPrice(); // precio unitario actual
 
   const existing = cart.find((x) => x.id === id);
-  if (existing) existing.qty += qty;
-  else cart.push({ id, name, image, qty });
+  if (existing) {
+    existing.qty   += qty;
+    existing.price  = price; // asegura precio guardado
+  } else {
+    cart.push({ id, name, image, qty, price }); // guarda precio
+  }
 
   renderCart();
   openCart();
@@ -220,7 +266,6 @@ els.checkoutClose && els.checkoutClose.addEventListener("click", closeCheckout);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeCheckout();
 });
-
 
 if (els.cartList) {
   els.cartList.addEventListener("click", (e) => {
@@ -325,13 +370,30 @@ function openCheckout() {
     `;
     els.summaryList.appendChild(row);
   });
+    migrateCartPrices();
 
-  pricingPreview(cart.map(c => ({ id: c.id, qty: c.qty })))
-    .then(p => {
-      els.summarySubtotal && (els.summarySubtotal.textContent = money(p.totals?.total ?? 0));
-      els.summaryTotal && (els.summaryTotal.textContent = money(p.totals?.total ?? 0));
-    })
-    .catch(() => {});
+  // Calcula totales para el resumen (con fallback local)
+  (async () => {
+    const lines = cart.map(c => ({ id: c.id, qty: c.qty }));
+    const fallbackLocal = () => {
+      const total = cart.reduce((acc, it) => acc + Number(it.price || 0) * Number(it.qty || 0), 0);
+      els.summarySubtotal && (els.summarySubtotal.textContent = money(total));
+      els.summaryTotal && (els.summaryTotal.textContent = money(total));
+    };
+
+    try {
+      const p = await pricingPreview(lines);
+      const total = Number(p?.totals?.total ?? 0);
+      if (total > 0) {
+        els.summarySubtotal && (els.summarySubtotal.textContent = money(total));
+        els.summaryTotal && (els.summaryTotal.textContent = money(total));
+      } else {
+        fallbackLocal();
+      }
+    } catch {
+      fallbackLocal();
+    }
+  })();
 
   els.checkout.classList.remove("hidden");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -376,9 +438,39 @@ if (els.checkoutForm) {
       zip:     fd.get("zip")     || "",
     };
 
+    // MODO SIMULADO: no llamamos a MP, no redirigimos
+    // ✅ MODO SIMULADO: no llamamos a MP, no redirigimos a sandbox
+if (window.__FAKE_PAYMENT__) {
+  // overlay “procesando…”
+  const overlay = document.createElement('div');
+  Object.assign(overlay.style, {
+    position:'fixed', inset:'0', background:'rgba(0,0,0,.35)',
+    display:'flex', alignItems:'center', justifyContent:'center',
+    color:'#fff', zIndex:99999, fontWeight:'600'
+  });
+  overlay.textContent = 'Procesando pago...';
+  document.body.appendChild(overlay);
+
+  await new Promise(r => setTimeout(r, 1200));
+  document.body.removeChild(overlay);
+
+  // 👉 AQUÍ el mensaje de éxito
+  alert('Pago aprobado ✅');
+
+  // (opcional) limpia carrito y refresca precios/UI
+  cart = [];
+  saveCart();
+  renderCart();
+
+  // redirige a home (sin sandbox)
+  location.href = `${location.pathname.replace(/\/[^/]*$/, '/') || '/'}home.html`;
+  return;
+}
+
+    // REAL: si quitas la simulación, aquí sí vas a MP
     try {
       const mpUrl = await createMpPreference(customer, getCartForBackend());
-      window.location.href = mpUrl;
+      window.location.href = mpUrl; // ← solo si __FAKE_PAYMENT__ es false
     } catch (err) {
       alert(`No se pudo iniciar el pago: ${err.message}`);
     }
@@ -404,7 +496,6 @@ function setupModeControls() {
     els.qty.setAttribute("readonly", "readonly");
   }
 
-  // === LÓGICA NUEVA ===
   // Comprar 1 -> fija 1 pieza, modo single y abre carrito
   if (els.btnSingle) {
     els.btnSingle.addEventListener("click", () => {
@@ -459,3 +550,14 @@ function setupModeControls() {
 setupModeControls();
 renderCart();
 updateMainPrice().catch(()=>{});
+
+/* ---------- Limpia carrito si venimos de éxito (modo demo) ---------- */
+(() => {
+  const params = new URLSearchParams(location.search);
+  if (params.get('success') === '1') {
+    clearCart();
+    renderCart();
+    history.replaceState({}, '', location.pathname);
+    console.log('Compra completada (demo): carrito limpiado.');
+  }
+})();
