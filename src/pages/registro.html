@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VEMA Corp — Crear cuenta</title>
   <link rel="icon" href="/imagenes/VEMA-transparente.png" type="image/png"/>
+  <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-slate-100">
@@ -58,7 +59,7 @@
             </fieldset>
 
             <!-- Formulario de registro -->
-            <form id="formRegister" class="mt-5 space-y-4" method="POST" action="#">
+            <form id="formRegister" class="mt-5 space-y-4" novalidate>
               <!-- Nombre -->
               <div>
                 <label for="name" class="sr-only">Nombre</label>
@@ -107,7 +108,9 @@
               </button>
             </form>
   </main>
-
+  <script>
+  window.__API_BASE__ = "https://armanda-intravascular-claris.ngrok-free.dev/api";
+</script>
   <script type="module" src="../js/registro.js"></script>
 </body>
 </html>

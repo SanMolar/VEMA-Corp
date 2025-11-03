@@ -5,5 +5,19 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  theme: {
+  extend: {
+    colors: {
+      vema: {
+        blue: '#0B3C5D',
+        green: '#00A676',
+        aqua: '#36B3E0',
+        light: '#E5ECF4',
+        dark: '#1E293B',
+      },
+    },
+  },
+}
+
 }
 

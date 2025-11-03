@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VEMA Corp — HidroCheck</title>
   <link rel="icon" href="/imagenes/VEMA-transparente.png" type="image/png"/>
+  <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -385,6 +386,9 @@
       </div>
     </div>
   </section>
+  <script>
+  window.__API_BASE__ = "https://armanda-intravascular-claris.ngrok-free.dev/api";
+</script>
 
   <!-- SCRIPT PRINCIPAL (tu lógica) -->
   <script type="module" src="../js/home.js"></script>

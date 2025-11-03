@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>VEMA Corp — HidroCheck TDS-3</title>
   <link rel="icon" href="/imagenes/android-chrome-512x512.png" type="image/png" />
+  <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     /* Brillo suave detrás del producto */
@@ -244,13 +245,35 @@
   </footer>
 
   <!-- Mini interacciones -->
-  <script>
+ <script>
     const minus = document.getElementById('qty-minus');
     const plus  = document.getElementById('qty-plus');
     const qty   = document.getElementById('qty');
-    minus?.addEventListener('click', () => qty.value = Math.max(1, (+qty.value||1)-1));
-    plus?.addEventListener('click',  () => qty.value = (+qty.value||1)+1);
+    minus?.addEventListener('click', () => qty.value = Math.max(1, (+qty.value || 1) - 1));
+    plus?.addEventListener('click',  () => qty.value = (+qty.value || 1) + 1);
   </script>
+
+  <!-- Tu JS de la página -->
   <script type="module" src="/src/js/home.js"></script>
+
+  <!-- Registro del Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      // 'load' está bien (espera imágenes y CSS). Si quieres que se registre antes, usa DOMContentLoaded.
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(() => console.log('✅ Service Worker registrado'))
+          .catch(err => console.error('❌ SW error', err));
+      });
+    }
+  </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .catch(err => console.error('SW register failed:', err));
+  });
+}
+</script>
 </body>
 </html>
