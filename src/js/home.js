@@ -454,7 +454,6 @@ if (window.__FAKE_PAYMENT__) {
   await new Promise(r => setTimeout(r, 1200));
   document.body.removeChild(overlay);
 
-  // 👉 AQUÍ el mensaje de éxito
   alert('Pago aprobado ✅');
 
   // (opcional) limpia carrito y refresca precios/UI
