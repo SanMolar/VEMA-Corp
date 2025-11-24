@@ -61,7 +61,7 @@ const { ok, status, data } = await postJSON("/register", { email, password, sect
     } else {
       // fallback en caso de que no devuelva token
       setSectorLocal(sector);
-      window.location.href = "./login.html";
+      window.location.href = "./home.html";
     }
   });
 }
